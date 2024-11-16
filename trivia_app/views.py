@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Question, AnswerChoice
 
+def home(request):
+    return render(request, 'trivia_app/home.html')
+
 # View for listing all categories
 def category_list(request):
     categories = Category.objects.all()
