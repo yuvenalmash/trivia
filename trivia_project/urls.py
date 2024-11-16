@@ -15,13 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from trivia_app import views
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.category_list, name='category_list'),
-    path('category/<int:category_id>/', views.question_list, name='question_list'),
-    path('question/<int:question_id>/', views.question_detail, name='question_detail'),
-    path('question/<int:question_id>/submit/', views.submit_answer, name='submit_answer'),
+    path('', include('trivia_app.urls'))
 ]
