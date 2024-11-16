@@ -1,0 +1,13 @@
+<!-- categories.html -->
+{% extends 'trivia_app/base.html' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+    <h2>Categories</h2>
+    <ul>
+        {% for category in categories %}
+            <a href="{% url 'trivia_app:question_page' category.id 0 %}">{{ category.name }}</a>
+        {% endfor %}
+    </ul>
+{% endblock %}

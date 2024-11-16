@@ -1,0 +1,25 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Trivia App{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>Trivia App</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'trivia_app:home' %}">Home</a></li>
+            <li><a href="{% url 'trivia_app:categories' %}">Categories</a></li>
+        </ul>
+    </nav>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>Trivia App</p>
+    </footer>
+</html>

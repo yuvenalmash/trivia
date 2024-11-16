@@ -1,0 +1,19 @@
+<!-- results.html -->
+{% extends 'trivia_app/base.html' %}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+    <h2>Results</h2>
+    <p>Your score: {{ score }} out of {{ total }}</p>
+    <ul>
+        {% for item in correct_answers %}
+            <li>
+                <strong>{{ item.question }}</strong><br>
+                Correct: {{ item.correct|join:", " }}<br>
+                Your answer: {{ item.user_answer }}<br>
+                {% if not item.is_correct %}<em>You got this wrong</em>{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
