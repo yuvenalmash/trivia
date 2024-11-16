@@ -1,0 +1,9 @@
+{% extends "trivia_app/base.html" %}
+
+{% block title %}Home - Trivia App{% endblock %}
+
+{% block content %}
+<h1>Welcome to the Trivia App!</h1>
+<p>Choose a category and start answering questions!</p>
+<a href="{% url 'category_list' %}">View Categories</a>
+{% endblock %}
