@@ -1,10 +1,13 @@
+# trivia_app/urls.py
 from django.urls import path
-from .views import home, category_list, question_list, question_detail, submit_answer
+from . import views
+
+app_name = 'trivia_app'
 
 urlpatterns = [
-    path('', home, name='home'),
-    path('categories/', category_list, name='category_list'),
-    path('category/<int:category_id>/', question_list, name='question_list'),
-    path('question/<int:question_id>/', question_detail, name='question_detail'),
-    path('question/<int:question_id>/submit/', submit_answer, name='submit_answer'),
+    path('', views.home, name='home'),
+    path('categories/', views.categories, name='categories'),
+    path('category/<int:category_id>/<int:question_index>/', views.question_page, name='question_page'),
+    path('category/<int:category_id>/results/', views.results, name='results'),
+    path('category/<int:category_id>/<int:question_index>/save/', views.save_answer, name='save_answer'),
 ]
