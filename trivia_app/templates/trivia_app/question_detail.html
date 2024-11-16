@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ question.text }}</title>
-</head>
-<body>
+{% extends 'trivia_app/base.html' %}
+
+{% block title %}{{ question.text }}{% endblock %}
+
+{% block content %}
     <h1>{{ question.text }}</h1>
     <form method="POST" action="{% url 'submit_answer' question.id %}">
         {% csrf_token %}
@@ -18,5 +17,4 @@
         </ul>
         <button type="submit">Submit Answer</button>
     </form>
-</body>
-</html>
+{% endblock %}

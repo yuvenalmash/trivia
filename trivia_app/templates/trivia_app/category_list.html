@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Trivia Categories</title>
-</head>
-<body>
+{% extends 'trivia_app/base.html' %}
+
+{% block title %}Trivia Categories{% endblock %}
+
+{% block content %}
     <h1>Trivia Categories</h1>
     <ul>
         {% for category in categories %}
             <li><a href="{% url 'question_list' category.id %}">{{ category.name }}</a></li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}

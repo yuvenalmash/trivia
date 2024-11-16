@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Answer Result</title>
-</head>
-<body>
+{% extends 'trivia_app/base.html' %}
+
+{% block title %}Answer Result{% endblock %}
+
+{% block content %}
     <h1>Answer Result</h1>
     {% if is_correct %}
         <p>Correct! 🎉</p>
@@ -11,5 +10,4 @@
         <p>Incorrect. Try again!</p>
     {% endif %}
     <a href="{% url 'question_list' question.category.id %}">Back to questions</a>
-</body>
-</html>
+{% endblock %}
