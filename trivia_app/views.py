@@ -1,36 +1,58 @@
+# views.py
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Question, AnswerChoice
+from .models import Category, Question, Answer
 
 def home(request):
     return render(request, 'trivia_app/home.html')
 
-# View for listing all categories
-def category_list(request):
+def categories(request):
     categories = Category.objects.all()
-    return render(request, 'trivia_app/category_list.html', {'categories': categories})
+    return render(request, 'trivia_app/categories.html', {'categories': categories})
 
-# View for displaying questions for a specific category
-def question_list(request, category_id):
+def question_page(request, category_id, question_index=0):
     category = get_object_or_404(Category, pk=category_id)
-    questions = category.questions.all()  # Get all questions related to this category
-    return render(request, 'trivia_app/question_list.html', {'category': category, 'questions': questions})
+    questions = category.questions.all()
+    
+    if question_index >= len(questions):
+        return redirect('trivia_app:results', category_id=category_id)
 
-# View for answering a specific question
-def question_detail(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    choices = question.answer_choices.all()  # Get all answer choices related to this question
-    return render(request, 'trivia_app/question_detail.html', {'question': question, 'choices': choices})
+    question = questions[question_index]
+    return render(request, 'trivia_app/question.html', {
+        'question': question,
+        'question_index': question_index,
+        'total_questions': len(questions),
+    })
 
-# View for submitting the answer
-def submit_answer(request, question_id):
-    if request.method == "POST":
-        question = get_object_or_404(Question, pk=question_id)
-        selected_choice = request.POST.get('choice')  # Get selected choice from the form
-        
-        # Check if the answer is correct
-        is_correct = question.answer_choices.get(pk=selected_choice).is_correct
-        
-        # Return a result page with correct/incorrect message
-        return render(request, 'trivia_app/answer_result.html', {'is_correct': is_correct, 'question': question})
+def results(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    user_answers = request.session.get('user_answers', {})
+    correct_answers = []
+    score = 0
 
-    return redirect('question_detail', question_id=question_id)
+    for question in category.questions.all():
+        correct = [a.text for a in question.answers.filter(is_correct=True)]
+        user_answer = user_answers.get(str(question.id), None)
+        correct_answers.append({
+            'question': question.text,
+            'correct': correct,
+            'user_answer': user_answer,
+            'is_correct': user_answer in correct,
+        })
+        if user_answer in correct:
+            score += 1
+
+    return render(request, 'trivia_app/results.html', {
+        'category': category,
+        'score': score,
+        'total': len(correct_answers),
+        'correct_answers': correct_answers,
+    })
+
+def save_answer(request, category_id, question_index):
+    if request.method == 'POST':
+        answer = request.POST.get('answer')
+        question_id = request.POST.get('question_id')
+        user_answers = request.session.get('user_answers', {})
+        user_answers[question_id] = answer
+        request.session['user_answers'] = user_answers
+        return redirect('trivia_app:question_page', category_id=category_id, question_index=question_index + 1)
