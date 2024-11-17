@@ -1,25 +1,35 @@
 <!-- base.html -->
+{% if settings.DEBUG %}
+<script src="http://localhost:8000/__reload__/reload.js"></script>
+{% endif %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="Viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Trivia App{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'trivia_app/css/style.css' %}">
 </head>
-<body>
-    <header>
-        <h1>Trivia App</h1>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="{% url 'trivia_app:home' %}">Home</a></li>
-            <li><a href="{% url 'trivia_app:categories' %}">Categories</a></li>
-        </ul>
-    </nav>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-    <footer>
-        <p>Trivia App</p>
-    </footer>
+<body class="bg-gradient-to-b from-secondary via-text to-secondary text-text font-sans flex justify-center w-screen max-h-screen">
+    <div class="bg-background flex flex-col min-h-screen max-h-screen w-full max-w-screen-md">
+        <header class="py-2 sm:py-4 bg-primary text-background">
+            <h1 class="text-xl sm:text-4xl font-bold px-6">Trivia App</h1>
+        </header>
+        <nav class="py-1 sm:py-2 bg-secondary text-primary text-base sm:text-lg font-bold text-center">
+            <ul class="flex space-x-4 px-4">
+                <li><a href="{% url 'trivia_app:home' %}" class="hover:text-accent transition-colors">Home</a></li>
+                <li><a href="{% url 'trivia_app:categories' %}" class="hover:text-accent transition-colors">Categories</a></li>
+            </ul>
+        </nav>
+        <main class="flex py-6 px-4 overflow-scroll flex-grow">
+            {% block content %}
+            {% endblock %}
+        </main>
+        <footer class="bg-primary py-2 sm:py-4 text-background text-center">
+            <p>Trivia App</p>
+        </footer>
+    </div>
+</body>
 </html>
