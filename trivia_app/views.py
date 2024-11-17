@@ -1,6 +1,7 @@
 # views.py
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Question, Answer
+import random
 
 def home(request):
     return render(request, 'trivia_app/home.html')
@@ -17,8 +18,11 @@ def question_page(request, category_id, question_index=0):
         return redirect('trivia_app:results', category_id=category_id)
 
     question = questions[question_index]
+    answers = list(question.answers.all())
+    random.shuffle(answers)
     return render(request, 'trivia_app/question.html', {
         'question': question,
+        'answers': answers,
         'question_index': question_index,
         'total_questions': len(questions),
     })

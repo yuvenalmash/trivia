@@ -4,16 +4,23 @@
 {% block title %}Results{% endblock %}
 
 {% block content %}
-    <h2>Results</h2>
-    <p>Your score: {{ score }} out of {{ total }}</p>
-    <ul>
-        {% for item in correct_answers %}
-            <li>
-                <strong>{{ item.question }}</strong><br>
-                Correct: {{ item.correct|join:", " }}<br>
-                Your answer: {{ item.user_answer }}<br>
-                {% if not item.is_correct %}<em>You got this wrong</em>{% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="flex flex-col items-center space-y-4 w-full bg-red-300">
+        <h2 class="text-lg sm:text-2xl font-bold">
+            Results
+        </h2>
+        <p class="text-base sm:text-xl">Your score: {{ score }} out of {{ total }}</p>
+        <ul class="flex flex-col space-y-4 text-base sm:text-lg">
+            {% for item in correct_answers %}
+                <li>
+                    <strong>{{ item.question }}</strong><br>
+                    Correct: {{ item.correct|join:", " }}<br>
+                    Your answer: {{ item.user_answer }}<br>
+                    {% if not item.is_correct %}<em>You got this wrong</em>{% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'trivia_app:categories' %}" class="btn-primary">
+            Play Again
+        </a>
+    </div>
 {% endblock %}

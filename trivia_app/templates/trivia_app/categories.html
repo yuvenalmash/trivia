@@ -4,10 +4,12 @@
 {% block title %}Categories{% endblock %}
 
 {% block content %}
-    <h2>Categories</h2>
-    <ul>
-        {% for category in categories %}
-            <a href="{% url 'trivia_app:question_page' category.id 0 %}">{{ category.name }}</a>
-        {% endfor %}
-    </ul>
+    <div class="flex flex-col text-center items-center space-y-4 w-full">
+        <h2 class="text-lg sm:text-2xl font-bold">Categories</h2>
+        <ul class="flex flex-col space-y-2">
+            {% for category in categories %}
+                <a href="{% url 'trivia_app:question_page' category.id 0 %}" class="btn-primary">{{ category.name }}</a>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
