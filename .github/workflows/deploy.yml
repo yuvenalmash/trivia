@@ -27,7 +27,7 @@ jobs:
 
       - name: Buld docker image
         run: |
-          docker compose build trivia .
+          docker compose build trivia
 
       - name: Zip and upload image to S3
         run: |
