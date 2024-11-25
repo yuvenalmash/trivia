@@ -1,0 +1,34 @@
+services:
+  trivia:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: trivia-app
+    ports:
+      - 8000:8000
+    environment:
+      DJANGO_SECRET_KEY: ${secrets.DJANGO_SECRET_KEY}
+      DJANGO_DEBUG: ${secrets.DJANGO_DEBUG}
+      DJANGO_ALLOWED_HOSTS: ${secrets.DJANGO_ALLOWED_HOSTS}
+      DB_NAME: ${secrets.DB_NAME}
+      DB_USER: ${secrets.DB_USER}
+      DB_PASSWORD: ${secrets.DB_PASSWORD}
+      DB_HOST: ${secrets.DB_HOST}
+      DB_PORT: ${secrets.DB_PORT}
+    depends_on:
+      - db
+    command: >
+      sh -c "
+      python manage.py migrate &&
+      python seed.py &&
+      gunicorn --bind 0.0.0.0:8000 trivia_project.wsgi
+      "
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${secrets.DB_NAME}
+      POSTGRES_USER: ${secrets.DB_USER}
+      POSTGRES_PASSWORD: ${secrets.DB_PASSWORD}
+    ports:
+      - 5432:5432
