@@ -17,6 +17,8 @@ services:
       DB_PORT: ${secrets.DB_PORT}
     depends_on:
       - db
+    networks:
+      - trivia-net
     command: >
       sh -c "
       python manage.py migrate &&
@@ -32,3 +34,9 @@ services:
       POSTGRES_PASSWORD: ${secrets.DB_PASSWORD}
     ports:
       - 5432:5432
+    networks:
+      - trivia-net
+
+networks:
+  trivia-net:
+    driver: bridge
