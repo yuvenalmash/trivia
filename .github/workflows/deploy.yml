@@ -42,6 +42,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Copy env file
+        run: |
+          echo "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" > .env
+          echo "DJANGO_DEBUG=${{ secrets.DJANGO_DEBUG }}" >> .env
+          echo "DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+
       - name: Configure SSH for EC2
         run: |
           mkdir -p ~/.ssh
@@ -50,7 +61,8 @@ jobs:
 
       - name: Copy files to EC2
         run: |
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/ec2_key.pem docker-compose.yml ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/docker-compose.yml
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/ec2_key.pem docker-compose-prod.yml ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/docker-compose.yml
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/ec2_key.pem .env ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/.env
 
       - name: Deploy on EC2
         run: |
@@ -58,11 +70,5 @@ jobs:
           cd /home/${{ secrets.EC2_USER }}
           wget https://${{ secrets.S3_BUCKET_NAME }}.s3.amazonaws.com/trivia-app/trivia-app.tar.gz
           gunzip -c trivia-app.tar.gz | docker load
-          # ensure docker compose is installed
-          if ! command -v docker-compose &> /dev/null
-          then
-              sudo dnf install python3-pip -y
-              pip3 install --user docker-compose
-          fi
           docker-compose up -d
           EOF
