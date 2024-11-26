@@ -19,9 +19,12 @@ services:
       - db
     networks:
       - trivia-net
+    volumes:
+      - ./staticfiles:/app/staticfiles
     command: >
       sh -c "
       sleep 10 &&
+      python manage.py collectstatic --noinput &&
       python manage.py migrate &&
       python seed.py &&
       gunicorn --bind 0.0.0.0:8000 trivia_project.wsgi
