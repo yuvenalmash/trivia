@@ -3,7 +3,7 @@ name: CI/CD Pipeline for Django Trivia App
 on:
   push:
     branches:
-      - fix-static
+      - develop
 
 jobs:
   build:
