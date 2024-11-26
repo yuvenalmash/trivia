@@ -1,11 +1,9 @@
-# This file is used to deploy the Django Trivia App to ec2 instance.
-# The built image is pushed to S3 bucket and the ec2 instance pulls the image from the S3 bucket and runs the container.
 name: CI/CD Pipeline for Django Trivia App
 
 on:
   push:
     branches:
-      - ci-cd
+      - develop
 
 jobs:
   build:
