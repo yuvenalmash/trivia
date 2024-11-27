@@ -1,7 +1,8 @@
-from prometheus_client import Counter
+from prometheus_client import Counter, REGISTRY
 
 # Counter to track requests
-REQUEST_COUNT = Counter('app_request_count', 'Total request count', ['method', 'endpoint'])
+if 'app_request_count' not in REGISTRY._names_to_collectors:
+    REQUEST_COUNT = Counter('app_request_count', 'Total request count', ['method', 'endpoint'])
 
 class MetricsMiddleware:
     def __init__(self, get_response):
