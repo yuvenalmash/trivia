@@ -19,6 +19,7 @@ services:
       - db
     networks:
       - trivia-net
+      - monitoring
     volumes:
       - ./staticfiles:/app/staticfiles
     command: >
@@ -43,4 +44,7 @@ services:
 
 networks:
   trivia-net:
+    driver: bridge
+  
+  monitoring:
     driver: bridge
