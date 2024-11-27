@@ -19,7 +19,7 @@ services:
       - db
     networks:
       - trivia-net
-      - monitoring
+      - monitoring_monitoring
     volumes:
       - ./staticfiles:/app/staticfiles
     command: >
@@ -46,5 +46,5 @@ networks:
   trivia-net:
     driver: bridge
   
-  monitoring:
-    driver: bridge
+  monitoring_monitoring:
+    external: true
