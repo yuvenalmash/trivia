@@ -10,4 +10,5 @@ urlpatterns = [
     path('trivia/category/<int:category_id>/<int:question_index>/', views.question_page, name='question_page'),
     path('trivia/category/<int:category_id>/results/', views.results, name='results'),
     path('trivia/category/<int:category_id>/<int:question_index>/save/', views.save_answer, name='save_answer'),
+    path('metrics/', views.metrics_view, name='metrics'),
 ]
