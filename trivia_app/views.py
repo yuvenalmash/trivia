@@ -2,6 +2,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Question, Answer
 import random
+from prometheus_client import Counter, generate_latest
+from django.http import HttpResponse
 
 def home(request):
     return render(request, 'trivia_app/home.html')
@@ -60,3 +62,8 @@ def save_answer(request, category_id, question_index):
         user_answers[question_id] = answer
         request.session['user_answers'] = user_answers
         return redirect('trivia_app:question_page', category_id=category_id, question_index=question_index + 1)
+    
+REQUEST_COUNT = Counter('app_request_count', 'Total request count', ['method', 'endpoint'])
+
+def metrics_view(request):
+    return HttpResponse(generate_latest(), content_type='text/plain')
