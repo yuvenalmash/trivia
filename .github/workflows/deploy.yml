@@ -45,7 +45,7 @@ jobs:
           echo "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" > .env
           echo "DJANGO_DEBUG=${{ secrets.DJANGO_DEBUG }}" >> .env
           echo "DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }}" >> .env
-          echo "DJANGO_CSRF_TRUSTED_ORIGINS"=${{ secrets.DJANGO_CSRF_TRUSTED_ORIGINS }}" >> .env
+          echo "DJANGO_CSRF_TRUSTED_ORIGINS=${{ secrets.DJANGO_CSRF_TRUSTED_ORIGINS }}" >> .env
           echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
